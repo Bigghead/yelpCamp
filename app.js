@@ -1,7 +1,20 @@
 var express = require('express'),
     bodyParser = require('body-parser'),
     request = require('request'),
+    mongoose = require('mongoose');
     app = express();
+
+//conect to mongodb
+mongoose.connect('mongodb://localhost/campgrounds');
+
+//set a pattern for new data
+var campSchema = new mongoose.Schema({
+  name: String,
+  image ; String
+});
+
+//make a new collection called 'campgrounds' in the DB
+var Camp = mongoose.model('Campground', campSchema);
 
 app.set('view engine', 'ejs');
 app.use(bodyParser.urlencoded({extended: true}));
