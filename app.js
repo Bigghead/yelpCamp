@@ -7,24 +7,20 @@ var express = require('express'),
 //conect to mongodb
 mongoose.connect('mongodb://localhost/campgrounds');
 
-//set a pattern for new data
-var campSchema = new mongoose.Schema({
-  name: String,
-  image ; String
-});
-
-//make a new collection called 'campgrounds' in the DB
-var Camp = mongoose.model('Campground', campSchema);
-
 app.set('view engine', 'ejs');
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.static('public'));  //css files
 
-var campgrounds = [
-  {name: 'Salmon Creek', image: 'https://farm8.staticflickr.com/7252/7626464792_3e68c2a6a5.jpg'},
-  {name: 'Granite Hill', image: 'http://www.photosforclass.com/download/4369518024'},
-  {name: 'Salmon Creek', image: 'http://www.photosforclass.com/download/4684194306'}
-];
+
+//set a pattern for new data
+var campSchema = new mongoose.Schema({
+  name: String,
+  image : String
+});
+
+//make a new collection called 'campgrounds' in the DB
+var Camp = mongoose.model('Camp', campSchema);
+
 
 //Home Page
 app.get('/', function(req, res){
@@ -34,7 +30,15 @@ app.get('/', function(req, res){
 //Show All Campgrounds
 app.get('/campgrounds', function(req, res){
   //campgrounds will be in a database. This will get passed to a view
-  res.render('campgrounds', {camps : campgrounds});
+
+  //get all campgrounds from db
+  Camp.find({}, function(err, camps){
+    if(err){
+      console.log(err);
+    } else {
+      res.render('campgrounds', { camps : camps});
+    }
+  });
 });
 
 //add new campground
@@ -42,8 +46,17 @@ app.post('/campgrounds', function(req, res){
   //get data from form and add to camps database
   var campName = req.body.campName;
   var campImage = req.body.campImage;
-  var newCampGround = {name: campName, image: campImage};
-  campgrounds.push(newCampGround);
+
+  Camp.create({
+    name: campName,
+    image: campImage
+  }, function(err, result){
+    if(err){
+      console.log(err);
+    } else {
+      console.log('Another Successful Add: ' + result.name);
+    }
+  });
   //redirect back to /campgrounds
   // res.render('campgrounds');
   res.redirect('campgrounds');
