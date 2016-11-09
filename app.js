@@ -24,6 +24,18 @@ var campSchema = new mongoose.Schema({
 //make a new collection called 'campgrounds' in the DB
 var Camp = mongoose.model('Camp', campSchema);
 
+// Camp.create({
+//   name: 'Granite Hill',
+//   image: 'http://www.photosforclass.com/download/2770447094',
+//   description: 'This is a huge Granite Hill. No bathrooms, no running water. Beautiful though'
+// }, function(err, result){
+//   if(err){
+//     console.log(err);
+//   } else {
+//     console.log('Added ' + result.name);
+//   }
+// });
+
 
 //Home Page
 app.get('/', function(req, res){
