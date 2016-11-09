@@ -15,7 +15,10 @@ app.use(express.static('public'));  //css files
 //set a pattern for new data
 var campSchema = new mongoose.Schema({
   name: String,
-  image : String
+  image : String,
+
+  //just added
+  description: String
 });
 
 //make a new collection called 'campgrounds' in the DB
@@ -55,16 +58,26 @@ app.post('/campgrounds', function(req, res){
       console.log(err);
     } else {
       console.log('Another Successful Add: ' + result.name);
+      //redirect back to /campgrounds
+      // res.render('campgrounds');
+      res.redirect('campgrounds');
     }
   });
-  //redirect back to /campgrounds
-  // res.render('campgrounds');
-  res.redirect('campgrounds');
+
 });
 
 //page that has a form to send data to the post route above
 app.get('/campgrounds/new', function(req, res){
   res.render('new');
+});
+
+
+//Show ROUTE
+app.get('/campgrounds/:id', function(req, res){
+  //find the campground with provided id
+  //render show template with that campground
+  var name = req.params.id;
+  res.send('This will be the show page for ' + name);
 });
 
 app.listen(3000, function(){
