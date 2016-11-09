@@ -61,10 +61,12 @@ app.post('/campgrounds', function(req, res){
   //get data from form and add to camps database
   var campName = req.body.campName;
   var campImage = req.body.campImage;
+  var campDes = req.body.campDescription;
 
   Camp.create({
     name: campName,
-    image: campImage
+    image: campImage,
+    description: campDes
   }, function(err, result){
     if(err){
       console.log(err);
