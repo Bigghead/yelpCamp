@@ -21,13 +21,13 @@ var campSchema = new mongoose.Schema({
   description: String
 });
 
-//make a new collection called 'campgrounds' in the DB
+//make a new collection called 'camps' in the DB
 var Camp = mongoose.model('Camp', campSchema);
 
 // Camp.create({
-//   name: 'Granite Hill',
-//   image: 'http://www.photosforclass.com/download/2770447094',
-//   description: 'This is a huge Granite Hill. No bathrooms, no running water. Beautiful though'
+//   name: 'Sky Hook',
+//   image: 'http://www.photosforclass.com/download/3694344957',
+//   description: 'One of the nicest I\'ve been to, almost no bears.'
 // }, function(err, result){
 //   if(err){
 //     console.log(err);
@@ -51,7 +51,7 @@ app.get('/campgrounds', function(req, res){
     if(err){
       console.log(err);
     } else {
-      res.render('campgrounds', { camps : camps});
+      res.render('index', { camps : camps});
     }
   });
 });
@@ -84,12 +84,19 @@ app.get('/campgrounds/new', function(req, res){
 });
 
 
-//Show ROUTE
+//Show ROUTE - shows more info about one campround
 app.get('/campgrounds/:id', function(req, res){
   //find the campground with provided id
-  //render show template with that campground
-  var name = req.params.id;
-  res.send('This will be the show page for ' + name);
+  var id = req.params.id;
+  //Camp.FindById(id, callback)
+  Camp.findById(id, function(err, foundCamp){
+    if(err){
+      console.log(err);
+    } else {
+      //render show template with that campground
+      res.render('show', {id: foundCamp});
+    }
+  })
 });
 
 app.listen(3000, function(){
