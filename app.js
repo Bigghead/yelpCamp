@@ -13,6 +13,9 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.static('public'));  //css files
 
 //module imports
+//clear db
+var seedDB = require('./seeds.js');
+seedDB();
 //campSchema
 var Camp = require('./models/campground.js');
 
