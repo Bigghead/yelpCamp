@@ -4,6 +4,7 @@ var express = require('express'),
     mongoose = require('mongoose');
     app = express();
 
+
 //conect to mongodb
 mongoose.connect('mongodb://localhost/campgrounds');
 
@@ -11,18 +12,10 @@ app.set('view engine', 'ejs');
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.static('public'));  //css files
 
+//module imports
+//campSchema
+var Camp = require('./models/campground.js');
 
-//set a pattern for new data
-var campSchema = new mongoose.Schema({
-  name: String,
-  image : String,
-
-  //just added
-  description: String
-});
-
-//make a new collection called 'camps' in the DB
-var Camp = mongoose.model('Camp', campSchema);
 
 // Camp.create({
 //   name: 'Sky Hook',
