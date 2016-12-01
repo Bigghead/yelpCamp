@@ -1,5 +1,6 @@
 var mongoose = require('mongoose'),
-Camp = require('./models/campground.js');
+    Camp = require('./models/campground.js'),
+    Comment = require('./models/comments.js');
 
 var data = [
   {
@@ -26,19 +27,32 @@ function seedDB(){
       console.log(err);
     } else {
       console.log('Removed All Camps');
+      data.forEach(function(camp){
+        //add camp in DB
+        Camp.create(camp, function(err, result){
+          if(err){
+            console.log(err)
+          } else {
+            console.log('Successful Add: '+ camp.name);
+            //add comment in DB
+            Comment.create({
+              text: 'Who ate all the doughnuts?',
+              author: 'Homer'
+            }, function(err, result){
+              if(err){
+                console.log(err);
+              } else {
+                //then push each made comment into each looped camp
+                camp.comments.push(result);
+                console.log('Added a comment from '+ result.author);
+                camp.save();
+              }
+            });
+          }
+        });
+      });
     }
-  });
-  data.forEach(function(camp){
-    Camp.create(camp, function(err, result){
-      if(err){
-        console.log(err)
-      } else {
-        console.log('Successful Add: '+ camp.name);
-      }
-    });
   })
-  //add starter data
-  //campgrounds
 }
 
 module.exports = seedDB;
