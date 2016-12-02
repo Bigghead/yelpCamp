@@ -119,12 +119,10 @@ app.post('/campgrounds/:id/newComments', function(req, res){
         }
       });
     }
-  }).populate('comments').exec(function(err, success){
-    if(err){
-      console.log(err);
-    } else {
-      res.render('show', {id: success});
-    }
+  });
+  Camp.findById(id).populate('comments').exec(function(err, foundCamp){
+    console.log('Still Trying');
+    res.render('show', {id: foundCamp});
   });
 });
 
