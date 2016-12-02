@@ -13,8 +13,13 @@
 
 <img src='<%= id.image%>'>
 
-
-
-
+<ul>
+  <% id.comments.forEach(function(comment){  %>
+    <div>
+     <li><%= comment.text %></li>
+     <li>- <%= comment.author %></li>
+    </div>
+<%  })  %>
+</ul>
 
 <% include partials/footer %>
