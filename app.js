@@ -92,6 +92,42 @@ app.get('/campgrounds/:id', function(req, res){
   });
 });
 
+app.get('/campgrounds/:id/newComments', function(req, res){
+  var id = req.params.id;
+  res.render('newComments', {id: id});
+});
+
+app.post('/campgrounds/:id/newComments', function(req, res){
+  var id = req.params.id;
+  var commentAuthor = req.body.commentAuthor;
+  var commentText = req.body.commentText;
+
+  Camp.findById(id, function(err, foundCamp){
+    if(err){
+      console.log(err);
+    } else{
+      Comment.create({
+        text: commentText,
+        author: commentAuthor
+      }, function(err, madeComment){
+        if(err){
+          console.log(err);
+        } else{
+          console.log(foundCamp);
+          foundCamp.comments.push(madeComment);
+          foundCamp.save();
+        }
+      });
+    }
+  }).populate('comments').exec(function(err, success){
+    if(err){
+      console.log(err);
+    } else {
+      res.render('show', {id: success});
+    }
+  });
+});
+
 app.listen(3000, function(){
   console.log('Camp Server Started');
 });
