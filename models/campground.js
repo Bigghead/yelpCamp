@@ -6,7 +6,13 @@ var campSchema = new mongoose.Schema({
   image : String,
 
   //just added
-  description: String
+  description: String,
+  comments: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Comment'
+    }
+  ]
 });
 
 //make a new collection called 'camps' in the DB
