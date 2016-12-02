@@ -1,44 +1,30 @@
 var express = require('express'),
     bodyParser = require('body-parser'),
     request = require('request'),
-    mongoose = require('mongoose');
+    mongoose = require('mongoose'),
+    Camp = require('./models/campground.js'),
+    Comment = require('./models/comments.js'),
+    seedDB = require('./seeds.js');
     app = express();
 
 
+
 //conect to mongodb
+mongoose.Promise = global.Promise;
 mongoose.connect('mongodb://localhost/campgrounds');
+
 
 app.set('view engine', 'ejs');
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.static('public'));  //css files
 
-//module imports
-//clear db
-var seedDB = require('./seeds.js');
-seedDB();
-//campSchema
-var Camp = require('./models/campground.js');
-
-
-// Camp.create({
-//   name: 'Sky Hook',
-//   image: 'http://www.photosforclass.com/download/3694344957',
-//   description: 'One of the nicest I\'ve been to, almost no bears.'
-// }, function(err, result){
-//   if(err){
-//     console.log(err);
-//   } else {
-//     console.log('Added ' + result.name);
-//   }
-// });
-
-
-//Home Page
+//Index ROUTE
 app.get('/', function(req, res){
   res.render('landing');
 });
 
-//Show All Campgrounds
+
+//Index ROUTE
 app.get('/campgrounds', function(req, res){
   //campgrounds will be in a database. This will get passed to a view
 
@@ -52,7 +38,15 @@ app.get('/campgrounds', function(req, res){
   });
 });
 
-//add new campground
+
+//NEW ROUTE
+//page that has a form to send data to the post route above
+app.get('/campgrounds/new', function(req, res){
+  res.render('new');
+});
+
+
+//CREATE ROUTE
 app.post('/campgrounds', function(req, res){
   //get data from form and add to camps database
   var campName = req.body.campName;
@@ -76,25 +70,26 @@ app.post('/campgrounds', function(req, res){
 
 });
 
-//page that has a form to send data to the post route above
-app.get('/campgrounds/new', function(req, res){
-  res.render('new');
-});
-
 
 //Show ROUTE - shows more info about one campround
 app.get('/campgrounds/:id', function(req, res){
   //find the campground with provided id
   var id = req.params.id;
-  //Camp.FindById(id, callback)
-  Camp.findById(id, function(err, foundCamp){
-    if(err){
-      console.log(err);
-    } else {
-      //render show template with that campground
-      res.render('show', {id: foundCamp});
-    }
-  })
+  // Camp.findById(id, callback)
+  // Camp.findById(id, function(err, foundCamp){
+  //   if(err){
+  //     console.log(err);
+  //   } else {
+  //     console.log(foundCamp);
+  //     res.render('show', {id: foundCamp});
+  //   }
+  // });
+
+  Camp.findById(id).populate('comments').exec(function(err, foundCamp){
+    console.log('Still Trying');
+    console.log(foundCamp);
+    res.render('show', {id: foundCamp});
+  });
 });
 
 app.listen(3000, function(){
