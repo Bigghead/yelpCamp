@@ -4,7 +4,7 @@ var express = require('express'),
     mongoose = require('mongoose'),
     Camp = require('./models/campground.js'),
     Comment = require('./models/comments.js'),
-    seedDB = require('./seeds.js');
+    seedDB = require('./seeds.js'),
     app = express();
 
 
@@ -12,6 +12,7 @@ var express = require('express'),
 //conect to mongodb
 mongoose.Promise = global.Promise;
 mongoose.connect('mongodb://localhost/campgrounds');
+// seedDB();
 
 
 app.set('view engine', 'ejs');
@@ -22,7 +23,6 @@ app.use(express.static('public'));  //css files
 app.get('/', function(req, res){
   res.render('landing');
 });
-
 
 //Index ROUTE
 app.get('/campgrounds', function(req, res){
@@ -62,9 +62,7 @@ app.post('/campgrounds', function(req, res){
       console.log(err);
     } else {
       console.log('Another Successful Add: ' + result.name);
-      //redirect back to /campgrounds
-      // res.render('campgrounds');
-      res.redirect('campgrounds');
+      res.redirect('/campgrounds');
     }
   });
 
@@ -75,27 +73,21 @@ app.post('/campgrounds', function(req, res){
 app.get('/campgrounds/:id', function(req, res){
   //find the campground with provided id
   var id = req.params.id;
-  // Camp.findById(id, callback)
-  // Camp.findById(id, function(err, foundCamp){
-  //   if(err){
-  //     console.log(err);
-  //   } else {
-  //     console.log(foundCamp);
-  //     res.render('show', {id: foundCamp});
-  //   }
-  // });
 
   Camp.findById(id).populate('comments').exec(function(err, foundCamp){
-    console.log('Still Trying');
-    console.log(foundCamp);
     res.render('show', {id: foundCamp});
   });
 });
 
+
+// ==============================
+// COMMENTS ROUTES
+//===============================
 app.get('/campgrounds/:id/newComments', function(req, res){
   var id = req.params.id;
   res.render('newComments', {id: id});
 });
+
 
 app.post('/campgrounds/:id/newComments', function(req, res){
   var id = req.params.id;
@@ -116,13 +108,10 @@ app.post('/campgrounds/:id/newComments', function(req, res){
           console.log(foundCamp);
           foundCamp.comments.push(madeComment);
           foundCamp.save();
+          res.redirect('/campgrounds/' + id);
         }
       });
     }
-  });
-  Camp.findById(id).populate('comments').exec(function(err, foundCamp){
-    console.log('Still Trying');
-    res.render('show', {id: foundCamp});
   });
 });
 

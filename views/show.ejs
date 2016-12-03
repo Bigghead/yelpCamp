@@ -1,27 +1,43 @@
 <% include partials/header  %>
 
-<h1>This is the Show Page</h1>
-
-<p>
-  and this is the id: <%= id._id %>
-  <br>and the name is <%= id.name %>
-</p>
-
-<p>
-  <%= id.description %>
-</p>
-
-<img src='<%= id.image%>'>
-
-<ul>
-  <% id.comments.forEach(function(comment){  %>
-    <div>
-     <li><%= comment.text %></li>
-     <li>- <%= comment.author %></li>
+<div class="container">
+  <div class="row">
+    <div class="col-lg-3">
+      <h2>yelpCamp</h2>
+      <div class="list-group">
+        <a href="#" class='list-group-item active'>Category 1</a>
+        <a href="#" class='list-group-item'>Category 2</a>
+        <a href="#" class='list-group-item'>Category 3</a>
+      </div>
     </div>
-<%  })  %>
-</ul>
 
-<a href="/campgrounds/<%= id._id %>/newComments" class='btn btn-lg btn-info'>Add A New Comment</a>
+    <div class="col-lg-9 thumbnail">
+      <img class='img-fluid'src='<%= id.image%>'>
+
+        <div class="row"  style='margin: auto 2px;'>
+          <div class="col-lg-4">
+            <h2><%= id.name %></h2>
+          </div>
+          <div class="col-lg-4 col-lg-offset-4">
+            <h3 class='pull-right'>$9.00/night</h2>
+          </div>
+        </div>
+
+          <p>
+            <%= id.description %>
+          </p>
+
+          <div id='comment-box'>
+            <% id.comments.forEach(function(comment){  %>
+              <p>***** <strong><%= comment.author %></strong></p>
+              <p><%= comment.text %></p>
+          <%  })  %>
+
+        <a href="/campgrounds/<%= id._id %>/newComments" class='btn btn-lg btn-info'>Add A New Comment</a>
+          </div>
+
+    </div>
+  </div>
+</div>
 
 <% include partials/footer %>
