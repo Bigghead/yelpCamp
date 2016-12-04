@@ -11,33 +11,28 @@
       </div>
     </div>
 
-    <div class="col-lg-9 thumbnail">
-      <img class='img-fluid'src='<%= id.image%>'>
-
-        <div class="row"  style='margin: auto 2px;'>
-          <div class="col-lg-4">
-            <h2><%= id.name %></h2>
-          </div>
-          <div class="col-lg-4 col-lg-offset-4">
-            <h3 class='pull-right'>$9.00/night</h2>
-          </div>
+    <div class="col-lg-9">
+      <div class="thumbnail">
+        <img class='img-responsive'src='<%= id.image%>'>
+        <div class="caption">
+          <h2 class='pull-right'>9.00/night</h2>
+          <h2><%= id.name %></h2>
+          <p><%= id.description %></p>
         </div>
+    </div>
 
-          <p>
-            <%= id.description %>
-          </p>
 
-          <div id='comment-box'>
-            <% id.comments.forEach(function(comment){  %>
-              <p>***** <strong><%= comment.author %></strong></p>
-              <p><%= comment.text %></p>
-          <%  })  %>
+        <div id='comment-box' class='well'>
+          <a href="/campgrounds/<%= id._id %>/newComments" class='btn btn-lg btn-info'>Add A New Comment</a>
 
-        <a href="/campgrounds/<%= id._id %>/newComments" class='btn btn-lg btn-info'>Add A New Comment</a>
+          <% id.comments.forEach(function(comment){  %>
+            <p>***** <strong><%= comment.author %></strong></p>
+            <p><%= comment.text %></p>
+            <%  })  %>
           </div>
 
+        </div>
+      </div>
     </div>
-  </div>
-</div>
 
-<% include partials/footer %>
+    <% include partials/footer %>

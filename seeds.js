@@ -7,18 +7,18 @@ var data = [
   {
     name: 'Cloud\'s Rest',
     image: 'http://www.photosforclass.com/download/7121865553',
-    description: 'Good place, even if sober',
+    description: 'Bacon ipsum dolor amet prosciutto beef cupim kielbasa. Frankfurter t-bone jerky flank. Ground round pig brisket shankle porchetta venison t-bone filet mignon jerky chuck flank ham hock drumstick spare ribs short ribs. Shoulder kevin biltong, meatloaf brisket short loin pork loin capicola ground round turducken. Picanha tail doner corned beef bacon turducken swine alcatra frankfurter pork loin shoulder pork belly jowl pork chop flank. ',
     comments : []
   },
   {
     name: "Sauron's Palace",
     image: 'http://www.photosforclass.com/download/1430198323',
-    description: 'Where LOTR was filmed',
+    description: 'Bacon ipsum dolor amet prosciutto beef cupim kielbasa. Frankfurter t-bone jerky flank. Ground round pig brisket shankle porchetta venison t-bone filet mignon jerky chuck flank ham hock drumstick spare ribs short ribs. Shoulder kevin biltong, meatloaf brisket short loin pork loin capicola ground round turducken. Picanha tail doner corned beef bacon turducken swine alcatra frankfurter pork loin shoulder pork belly jowl pork chop flank. ',
     comments : []
   },{
     name: 'Sky Hook',
     image: 'http://www.photosforclass.com/download/3694344957',
-    description: 'Almost no bears',
+    description: 'Bacon ipsum dolor amet prosciutto beef cupim kielbasa. Frankfurter t-bone jerky flank. Ground round pig brisket shankle porchetta venison t-bone filet mignon jerky chuck flank ham hock drumstick spare ribs short ribs. Shoulder kevin biltong, meatloaf brisket short loin pork loin capicola ground round turducken. Picanha tail doner corned beef bacon turducken swine alcatra frankfurter pork loin shoulder pork belly jowl pork chop flank. ',
     comments : []
   }
 ];
