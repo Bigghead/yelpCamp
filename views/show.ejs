@@ -1,8 +1,8 @@
 <% include partials/header  %>
 
-<div class="container">
+<div class="container" style='margin-top:25px;'>
   <div class="row">
-    <div class="col-lg-3">
+    <div class="col-md-3">
       <h2>yelpCamp</h2>
       <div class="list-group">
         <a href="#" class='list-group-item active'>Category 1</a>
@@ -11,12 +11,12 @@
       </div>
     </div>
 
-    <div class="col-lg-9">
-      <div class="thumbnail">
+    <div class="col-md-9">
+      <div class="thumbnail big-thumbnail">
         <img class='img-responsive'src='<%= id.image%>'>
         <div class="caption">
           <h2 class='pull-right'>9.00/night</h2>
-          <h2><%= id.name %></h2>
+          <h2><a href='#a'><%= id.name %></a></h2>
           <p><%= id.description %></p>
         </div>
     </div>
@@ -25,9 +25,16 @@
         <div id='comment-box' class='well'>
           <a href="/campgrounds/<%= id._id %>/newComments" class='btn btn-lg btn-info'>Add A New Comment</a>
 
+          <hr>
           <% id.comments.forEach(function(comment){  %>
-            <p>***** <strong><%= comment.author %></strong></p>
-            <p><%= comment.text %></p>
+            <div class='row'>
+              <div class='col-md-12'>
+                <p>***** <strong><%= comment.author %></strong>
+                 <span class='pull-right'>10 Days Ago</span>
+                </p>
+                <p><%= comment.text %></p>
+              </div>
+            </div>
             <%  })  %>
           </div>
 
