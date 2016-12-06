@@ -163,7 +163,7 @@ app.post('/register', function(req, res){
 
 //============LOGOUT=======
 app.get('/logout', function(req, res){
-  res.logout();
+  req.logout();
   res.redirect('/campgrounds');
 });
 
