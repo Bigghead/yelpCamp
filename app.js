@@ -5,6 +5,10 @@ var express = require('express'),
     Camp = require('./models/campground.js'),
     Comment = require('./models/comments.js'),
     seedDB = require('./seeds.js'),
+    passport = require('passport'),
+    localStrategy = require('passport-local'),
+    passportLocalMongoose = require('passport-local-mongoose'),
+    Session = require('express-session'),
     app = express();
 
 
@@ -18,6 +22,22 @@ mongoose.connect('mongodb://localhost/campgrounds');
 app.set('view engine', 'ejs');
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.static('public'));  //css files
+
+//setup passport underneath body/cookie Parser
+app.use(Session({
+  secret: 'This is Sparta Again',
+  resave :false,
+  saveUninitialized: false
+}));
+
+//tell Express to use Passport
+app.use(passport.initialize());
+app.use(passport.session());
+
+//passport checks for login later
+passport.use(new localStrategy(passedSchema.authenticate()));
+passport.serializeUser(passedSchema.serializeUser());
+passport.deserializeUser(passedSchema.deserializeUser());
 
 //Index ROUTE
 app.get('/', function(req, res){
