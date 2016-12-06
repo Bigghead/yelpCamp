@@ -136,6 +136,30 @@ app.post('/campgrounds/:id/newComments', function(req, res){
   });
 });
 
+
+//================REGISTRATION ROUTE==========
+app.get('/register', function(req, res){
+  res.render('register');
+});
+
+app.post('/register', function(req, res){
+  var username = req.body.username;
+  var password = req.body.password;
+
+  User.register(new User({username: username}), password, function(err, success){
+    if(err){
+      console.log(err);
+      //go back to register form
+      res.render('register');
+    } else {
+      //use passport to authenticate, register new user, and redirect somewhere
+      passport.authenticate('local')(req, res, function(){
+        res.redirect('/campgrounds');
+      });
+    }
+  });
+});
+
 app.listen(3000, function(){
   console.log('Camp Server Started');
 });
