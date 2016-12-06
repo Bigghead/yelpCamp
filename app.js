@@ -160,6 +160,13 @@ app.post('/register', function(req, res){
   });
 });
 
+
+//============LOGOUT=======
+app.get('/logout', function(req, res){
+  res.logout();
+  res.redirect('/campgrounds');
+});
+
 app.listen(3000, function(){
   console.log('Camp Server Started');
 });
