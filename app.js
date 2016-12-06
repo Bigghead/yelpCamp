@@ -10,6 +10,7 @@ var express = require('express'),
     localStrategy = require('passport-local'),
     passportLocalMongoose = require('passport-local-mongoose'),
     Session = require('express-session'),
+    flash = require('connect-flash'),
     app = express();
 
 
@@ -34,6 +35,8 @@ app.use(Session({
 //tell Express to use Passport
 app.use(passport.initialize());
 app.use(passport.session());
+
+app.use(flash());
 
 //passport checks for login later
 passport.use(new localStrategy(User.authenticate()));
@@ -104,9 +107,15 @@ app.get('/campgrounds/:id', function(req, res){
 // ==============================
 // COMMENTS ROUTES
 //===============================
-app.get('/campgrounds/:id/newComments', function(req, res){
+app.get('/campgrounds/:id/newComments', isLoggedIn, function(req, res){
   var id = req.params.id;
-  res.render('newComments', {id: id});
+  Camp.findById(id, function(err, foundCamp){
+    if(err){
+      console.log(err);
+    } else {
+      res.render('newComments', {camp: foundCamp});
+    }
+  });
 });
 
 
@@ -149,8 +158,9 @@ app.post('/register', function(req, res){
   User.register(new User({username: username}), password, function(err, success){
     if(err){
       console.log(err);
+      console.log(err.message);
       //go back to register form
-      res.render('register');
+      return res.render('register');
     } else {
       //use passport to authenticate, register new user, and redirect somewhere
       passport.authenticate('local')(req, res, function(){
@@ -169,10 +179,21 @@ app.get('/login', function(req, res){
 //app.post(url, passport.authenticate('local', {redirects}), callback);
 app.post('/login', passport.authenticate('local', {
   successRedirect: '/campgrounds',
-  failureRedirect: '/login'
+  failureRedirect: '/login',
+  failureFlash: 'Invalid Username or Password'
 }) ,function(){
-  
+
 });
+
+//check if user is logged in
+function isLoggedIn(req, res, next){
+  //if user is logged in, continue to the next function
+  if(req.isAuthenticated()){
+    return next();
+  } else {
+    res.render('login');
+  }
+}
 
 
 //============LOGOUT=======
