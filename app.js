@@ -4,6 +4,7 @@ var express = require('express'),
     mongoose = require('mongoose'),
     Camp = require('./models/campground.js'),
     Comment = require('./models/comments.js'),
+    User = require('./models/user.js'),
     seedDB = require('./seeds.js'),
     passport = require('passport'),
     localStrategy = require('passport-local'),
@@ -35,9 +36,9 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 //passport checks for login later
-passport.use(new localStrategy(passedSchema.authenticate()));
-passport.serializeUser(passedSchema.serializeUser());
-passport.deserializeUser(passedSchema.deserializeUser());
+passport.use(new localStrategy(User.authenticate()));
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
 
 //Index ROUTE
 app.get('/', function(req, res){
