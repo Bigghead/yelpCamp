@@ -2,9 +2,8 @@
 <% include partials/header %>
 
 <div class='container'>
-  <div class='row'>
     <h1 style='text-align: center;'>Create A New Campground</h1>
-    <div style='width: 30%; margin: 25px auto;'>
+    <div style='margin: 25px auto;'>
       <form class="" action="/campgrounds" method="post">
         <div class='form-group'>
           <input required class='form-control' type="text" name="campName" placeholder='Campsite Name' id='campName1'>
@@ -18,11 +17,9 @@
         <div class='form-group'>
           <button class='btn btn-info btn-large btn-block' type="submit" name="button">Add New Campground</button>
         </div>
+        <a href="/campgrounds" class='btn btn-block btn-primary'>Back To Campgrounds</a>
       </form>
     </div>
-
-    <a href="/campgrounds"><button type="button" name="button">Back to CampGrounds</button></a>
-  </div> <!-- end row -->
 </div> <!-- end container -->
 
 <% include partials/footer %>

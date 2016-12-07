@@ -36,6 +36,7 @@ app.use(Session({
 app.use(passport.initialize());
 app.use(passport.session());
 
+
 //pass in a req.user object into our header.ejs file
 //middlewares run on every route. This will be available on every route
 app.use(function(req, res, next){
@@ -73,13 +74,13 @@ app.get('/campgrounds', function(req, res){
 
 //NEW ROUTE
 //page that has a form to send data to the post route above
-app.get('/campgrounds/new', function(req, res){
+app.get('/campgrounds/new', isLoggedIn, function(req, res){
   res.render('new');
 });
 
 
 //CREATE ROUTE
-app.post('/campgrounds', function(req, res){
+app.post('/campgrounds', isLoggedIn, function(req, res){
   //get data from form and add to camps database
   var campName = req.body.campName;
   var campImage = req.body.campImage;
