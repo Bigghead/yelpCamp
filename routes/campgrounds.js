@@ -1,5 +1,6 @@
 var express = require('express'),
-    router  = express.Router();
+    router  = express.Router(),
+    Camp = require('../models/campground.js');
 
 //change all the app.get/app.post to router.get/router.post
 
@@ -61,6 +62,16 @@ router.get('/campgrounds/:id', function(req, res){
     res.render('show', {id: foundCamp});
   });
 });
+
+//check if user is logged in
+function isLoggedIn(req, res, next){
+  //if user is logged in, continue to the next function
+  if(req.isAuthenticated()){
+    return next();
+  } else {
+    res.render('login');
+  }
+}
 
 
 module.exports = router;

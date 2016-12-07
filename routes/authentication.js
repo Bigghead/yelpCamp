@@ -1,5 +1,8 @@
 var express = require('express'),
-    router  = express.Router();
+    router  = express.Router(),
+    passport = require('passport'),
+    localStrategy = require('passport-local'),
+    passportLocalMongoose = require('passport-local-mongoose');
 
 
 //================REGISTRATION ROUTE==========

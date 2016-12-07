@@ -1,7 +1,9 @@
 var express = require('express'),
     router = express.Router();
 
-
+//don't forget to import the comment/camp models used in the routes below
+var Camp = require('../models/campground.js'),
+    Comment = require('../models/comments.js');
 // ==============================
 // COMMENTS ROUTES
 //===============================
