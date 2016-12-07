@@ -43,4 +43,14 @@ router.post('/campgrounds/:id/newComments', isLoggedIn, function(req, res){
   });
 });
 
+//check if user is logged in
+function isLoggedIn(req, res, next){
+  //if user is logged in, continue to the next function
+  if(req.isAuthenticated()){
+    return next();
+  } else {
+    res.render('login');
+  }
+}
+
 module.exports = router;

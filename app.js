@@ -51,6 +51,11 @@ app.use(function(req, res, next){
   next();
 });
 
+//======Routes========
+app.use(campRoute);
+app.use(commentRoute);
+app.use(authRoute);
+
 app.use(flash());
 
 //passport checks for login later
