@@ -36,6 +36,15 @@ app.use(Session({
 app.use(passport.initialize());
 app.use(passport.session());
 
+//pass in a req.user object into our header.ejs file
+//middlewares run on every route. This will be available on every route
+app.use(function(req, res, next){
+  //res.locals is the passed in req.user
+  //currentUser is the req.user object
+  res.locals.currentUser = req.user;
+  next();
+});
+
 app.use(flash());
 
 //passport checks for login later
@@ -119,7 +128,7 @@ app.get('/campgrounds/:id/newComments', isLoggedIn, function(req, res){
 });
 
 
-app.post('/campgrounds/:id/newComments', function(req, res){
+app.post('/campgrounds/:id/newComments', isLoggedIn, function(req, res){
   var id = req.params.id;
   var commentAuthor = req.body.commentAuthor;
   var commentText = req.body.commentText;
