@@ -60,7 +60,6 @@ app.get('/', function(req, res){
 //Index ROUTE
 app.get('/campgrounds', function(req, res){
   //campgrounds will be in a database. This will get passed to a view
-
   //get all campgrounds from db
   Camp.find({}, function(err, camps){
     if(err){
