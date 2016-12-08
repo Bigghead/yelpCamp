@@ -2,7 +2,8 @@ var express = require('express'),
     router  = express.Router(),
     passport = require('passport'),
     localStrategy = require('passport-local'),
-    passportLocalMongoose = require('passport-local-mongoose');
+    passportLocalMongoose = require('passport-local-mongoose'),
+    User = require('../models/user.js');
 
 
 //================REGISTRATION ROUTE==========
