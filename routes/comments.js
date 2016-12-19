@@ -30,13 +30,12 @@ router.post('/campgrounds/:id/newComments', isLoggedIn, function(req, res){
     } else{
       Comment.create({
         text: commentText,
+        author: req.user.username
       }, function(err, madeComment){
         if(err){
           console.log(err);
         } else{
           console.log(req.user);
-          madeComment.author.id = req.user._id;
-          madeComment.author.username = req.user.username;
           madeComment.save();
           foundCamp.comments.push(madeComment);
           foundCamp.save();

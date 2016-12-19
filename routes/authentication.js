@@ -21,12 +21,11 @@ router.post('/register', function(req, res){
       console.log(err.message);
       //go back to register form
       return res.render('register');
-    } else {
+    }
       //use passport to authenticate, register new user, and redirect somewhere
       passport.authenticate('local')(req, res, function(){
         res.redirect('/campgrounds');
       });
-    }
   });
 });
 

@@ -18,7 +18,10 @@
           <h2 class='pull-right'>9.00/night</h2>
           <h2><a href='#a'><%= id.name %></a></h2>
           <p><%= id.description %></p>
+          <hr>
+          <p >Camp Added By: <em><strong><%= id.author.username %></strong></em></p>
         </div>
+
     </div>
 
 
@@ -29,7 +32,7 @@
           <% id.comments.forEach(function(comment){  %>
             <div class='row'>
               <div class='col-md-12'>
-                <p>***** <strong><%= comment.author.username %></strong>
+                <p>***** <strong><%= comment.author %></strong>
                  <span class='pull-right'>10 Days Ago</span>
                 </p>
                 <p><%= comment.text %></p>

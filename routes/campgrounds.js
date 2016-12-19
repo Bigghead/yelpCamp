@@ -1,6 +1,7 @@
 var express = require('express'),
     router  = express.Router(),
-    Camp = require('../models/campground.js');
+    Camp = require('../models/campground.js'),
+    User = require('../models/user.js');
 
 //change all the app.get/app.post to router.get/router.post
 
@@ -26,6 +27,7 @@ router.get('/campgrounds', function(req, res){
 //NEW ROUTE
 //page that has a form to send data to the post route above
 router.get('/campgrounds/new', isLoggedIn, function(req, res){
+  console.log('User: ' + req.user);
   res.render('new');
 });
 
@@ -37,18 +39,28 @@ router.post('/campgrounds', isLoggedIn, function(req, res){
   var campImage = req.body.campImage;
   var campDes = req.body.campDescription;
 
-  Camp.create({
-    name: campName,
-    image: campImage,
-    description: campDes
-  }, function(err, result){
+  User.findById(req.user._id, function(err, foundUser){
     if(err){
       console.log(err);
-    } else {
-      console.log('Another Successful Add: ' + result.name);
-      res.redirect('/campgrounds');
+    } else{
+      Camp.create({
+        name: campName,
+        image: campImage,
+        description: campDes,
+        author:{
+          id: req.user._id,
+          username : req.user.username
+        }
+      }, function(err, result){
+        if(err){
+          console.log(err);
+        } else {
+          console.log('Another Successful Add: ' + result.name);
+          res.redirect('/campgrounds');
+        }
+      });
     }
-  });
+  })
 
 });
 
