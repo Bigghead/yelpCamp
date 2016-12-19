@@ -110,7 +110,16 @@ router.put('/campgrounds/:id', function(req, res){
   });
 });
 
-
+//==========DELETE CAMP=======
+router.delete('/campgrounds/:id', function(req, res){
+  Camp.findByIdAndRemove(req.params.id, function(err, success){
+    if(err){
+      res.redirect('/campgrounds');
+    } else {
+      res.redirect('/campgrounds');
+    }
+  });
+});
 //check if user is logged in
 function isLoggedIn(req, res, next){
   //if user is logged in, continue to the next function
