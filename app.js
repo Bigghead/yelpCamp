@@ -11,6 +11,7 @@ var express = require('express'),
     passportLocalMongoose = require('passport-local-mongoose'),
     Session = require('express-session'),
     flash = require('connect-flash'),
+    method = require('method-override'),
     app = express();
 
 //route imports
@@ -27,6 +28,7 @@ mongoose.connect('mongodb://localhost/campgrounds');
 app.set('view engine', 'ejs');
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.static('public'));  //css files
+app.use(method("_method"));
 
 //setup passport underneath body/cookie Parser
 app.use(Session({
