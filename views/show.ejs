@@ -20,12 +20,13 @@
           <p><%= id.description %></p>
           <hr>
           <p >Camp Added By: <em><strong><%= id.author.username %></strong></em></p>
-          <a href="/campgrounds/<%= id._id %>/edit" class='btn btn-warning'>EDIT</a>
-          <form style='margin: 0; display: inline-block;'class="" action="/campgrounds/<%= id._id %>?_method=DELETE" method="post">
-            <button class='btn btn-danger'type="submit" name="button">DELETE</button>
-          </form>
-
-        </div>
+          <% if(currentUser){ %>
+            <a href="/campgrounds/<%= id._id %>/edit" class='btn btn-warning'>EDIT</a>
+            <form style='margin: 0; display: inline-block;'class="" action="/campgrounds/<%= id._id %>?_method=DELETE" method="post">
+              <button class='btn btn-danger'type="submit" name="button">DELETE</button>
+            </form>
+        <%  }  %>
+          </div>
 
     </div>
 

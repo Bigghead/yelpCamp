@@ -102,7 +102,7 @@ router.get('/campgrounds/:id/edit', function(req, res){
 
 
 //=====UPDATE CAMPGROUND====
-router.put('/campgrounds/:id', function(req, res){
+router.put('/campgrounds/:id', isUserCamp, function(req, res){
   var name = req.body.campName;
   var image = req.body.campImage;
   var des = req.body.campDescription;
@@ -122,7 +122,7 @@ router.put('/campgrounds/:id', function(req, res){
 });
 
 //==========DELETE CAMP=======
-router.delete('/campgrounds/:id', function(req, res){
+router.delete('/campgrounds/:id', isUserCamp, function(req, res){
   Camp.findByIdAndRemove(req.params.id, function(err, success){
     if(err){
       res.redirect('/campgrounds');
@@ -141,5 +141,26 @@ function isLoggedIn(req, res, next){
   }
 }
 
+function isUserCamp(req, res, next){
+  //is user logged in?
+  if(req.isAuthenticated()){
+    Camp.findById(req.params.id, function(err, foundCamp){
+      if(err){
+        console.log(err);
+      } else{
+        //if user logged in,
+        //does his id match the camp's creator's id?
+        if(foundCamp.author.id.equals(req.user._id)){
+          //if yes to everything, do next
+          next();
+        } else {
+          res.redirect('back');
+        }
+      }
+    });
+  } else {
+    res.redirect('back');
+  }
+}
 
 module.exports = router;
