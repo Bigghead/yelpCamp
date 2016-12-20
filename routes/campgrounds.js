@@ -79,14 +79,25 @@ router.get('/campgrounds/:id', function(req, res){
 //=====EDIT CAMPGROUND======
 router.get('/campgrounds/:id/edit', function(req, res){
   var id = req.params.id;
-  Camp.findById(id, function(err, foundCamp){
-    if(err){
-      console.log(err);
-    } else {
-      console.log(foundCamp);
-      res.render('editCamp', {foundCamp: foundCamp});
-    }
-  });
+  //is user logged in?
+  if(req.isAuthenticated()){
+    Camp.findById(id, function(err, foundCamp){
+      if(err){
+        console.log(err);
+      } else {
+        console.log(foundCamp);
+        //does the foundCamp author id match the user's id?
+        //foundCamp.author.id is an ObjectId. User id is a string
+        if(foundCamp.author.id.equals(req.user._id)){
+          res.render('editCamp', {foundCamp: foundCamp});
+        } else {
+          res.send('You shall not pass!');
+        }
+      }
+    });
+  } else {
+    res.redirect('/campgrounds/' + id);
+  }
 });
 
 
