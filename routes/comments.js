@@ -30,7 +30,10 @@ router.post('/campgrounds/:id/newComments', isLoggedIn, function(req, res){
     } else{
       Comment.create({
         text: commentText,
-        author: req.user.username
+        author:{
+            username: req.user.username,
+            id: req.user._id
+          }
       }, function(err, madeComment){
         if(err){
           console.log(err);
@@ -49,7 +52,7 @@ router.post('/campgrounds/:id/newComments', isLoggedIn, function(req, res){
 
 
 //======EDIT COMMENTS=====
-router.get('/campgrounds/:id/newComments/:comment_id/edit', function(req, res){
+router.get('/campgrounds/:id/newComments/:comment_id/edit', checkOwnerComment, function(req, res){
   Camp.findById(req.params.id, function(err, foundCamp){
     if(err){
       console.log(err);
@@ -58,16 +61,16 @@ router.get('/campgrounds/:id/newComments/:comment_id/edit', function(req, res){
         if(err){
           console.log(err);
         } else {
-            res.render('editComments' ,{foundComment : foundComment, foundCamp: foundCamp});
+          res.render('editComments', {foundCamp : foundCamp , foundComment: foundComment});
         }
       });
     }
-  })
+  });
 });
 
 
 //=======UPDATE COMMENT====
-router.put('/campgrounds/:id/newComments/:comment_id', function(req, res){
+router.put('/campgrounds/:id/newComments/:comment_id', checkOwnerComment, function(req, res){
   var newText = req.body.commentText;
   Comment.findByIdAndUpdate(req.params.comment_id, {
     text : newText
@@ -98,6 +101,28 @@ function isLoggedIn(req, res, next){
     return next();
   } else {
     res.render('login');
+  }
+}
+
+
+function checkOwnerComment(req, res, next){
+  // check if user is logged in
+  if(req.isAuthenticated()){
+    //check if comment id matches the user log in id
+    Comment.findById(req.params.comment_id, function(err, foundComment){
+      if(err){
+      console.log(err);
+    } else {
+      console.log('Comment:' + foundComment.author.id);
+      if(foundComment.author.id.equals(req.user._id)){
+        next();
+      } else {
+        res.redirect('back');
+      }
+    }
+  });
+  } else {
+    res.redirect('back');
   }
 }
 

@@ -22,7 +22,7 @@ var campRoute = require('./routes/campgrounds.js'),
 //conect to mongodb
 mongoose.Promise = global.Promise;
 mongoose.connect('mongodb://localhost/campgrounds');
-//seedDB();
+// seedDB();
 
 
 app.set('view engine', 'ejs');
