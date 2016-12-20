@@ -84,7 +84,7 @@ router.put('/campgrounds/:id/newComments/:comment_id', checkOwnerComment, functi
 });
 
 
-router.delete('/campgrounds/:id/newComments/:comment_id/delete', function(req,res){
+router.delete('/campgrounds/:id/newComments/:comment_id/delete', checkOwnerComment, function(req,res){
   Comment.findByIdAndRemove(req.params.comment_id, function(err, success){
     if(err){
       res.redirect('/campgrounds/' + req.params.id);

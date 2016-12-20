@@ -71,6 +71,7 @@ router.get('/campgrounds/:id', function(req, res){
   var id = req.params.id;
 
   Camp.findById(id).populate('comments').exec(function(err, foundCamp){
+    console.log(foundCamp);
     res.render('show', {id: foundCamp});
   });
 });
